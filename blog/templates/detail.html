@@ -13,4 +13,26 @@ Published {{ post.publish }} by {{ post.author }}
         Share this post
     </a>
 </p>
+<!--The with  tag allows you-->
+<!--to assign a value to a new variable that will be available in the template until the endwith  tag-->
+{% with comments.count as total_comments %}
+<h2>
+<!--    We use the pluralize template filter to display a plural suffix for the word “comment,” depending on-->
+<!--the total_comments value-->
+    {{total_comments}} comment{{ total_comments|pluralize }}
+</h2>
+{% endwith %}
+{% for comment in comments %}
+<div class="comment">
+    <p class="info">
+        Comment {{ forloop.counter }} by {{comment.name }}
+        {{ comment.created}}
+
+    </p>
+    {{ comment.body | linebreaks }}
+</div>
+{% empty %}
+<p>There are no comments.</p>
+{% endfor %}
+{% include "comment_form.html" %}
 {% endblock %}
